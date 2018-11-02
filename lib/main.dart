@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.grey,
       ),
       home: Scaffold(
-        body : new MyHomePage(title: 'Flutter Demo Home Page'),
+        body : new MyHomePage(title: 'Flutter'),
       ),
       //home: new MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -45,9 +45,9 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _toast() {
+  void _toast(String msg) {
       Scaffold.of(context).showSnackBar(new SnackBar(
-        content: new Text("OMG"),
+        content: new Text(msg),
       ));
   }
 
@@ -58,13 +58,31 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.red,
         title: new Text(widget.title),
         centerTitle: true,
+        leading: new IconButton(icon: new Icon(Icons.arrow_back)
+              , onPressed:()=> _toast('Back'),),
         actions: <Widget>[
           new Row(
-            mainAxisAlignment:MainAxisAlignment.center,
             children: <Widget>[
-            new MaterialButton(color: Colors.yellow,
-              onPressed: _toast,)
-          ],),
+            new IconButton(icon: new Icon(Icons.link)
+            , onPressed:()=> _toast('Link')
+            ,alignment: Alignment.centerLeft,),
+    new PopupMenuButton<String>(
+    itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
+    new PopupMenuItem<String>(
+    value: "price", child: new Text('Sort by price',textAlign: TextAlign.center,)),
+    new PopupMenuItem<String>(
+    value: "time", child: new Text('Sort by time',textAlign: TextAlign.center,)),
+    ],
+    onSelected: (String action) {
+      switch (action) {
+        case "price":
+          _toast('Price');
+        break;
+        case "time":
+          _toast('Time');
+        break;
+      }
+    })],),
         ],
       ),
       body: new Center(
@@ -107,4 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+}
+
+class Choice {
 }
