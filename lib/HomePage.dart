@@ -103,8 +103,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _toListPage() {
     Navigator.push(
-      context,
-      new MaterialPageRoute(builder: (context) => new MyListPage()),
+      context, new MaterialPageRoute(builder: (context) => new MyListPage(
+    )),
     );
   }
 }
