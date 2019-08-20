@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/home_page.dart';
 import 'package:flutter_app/login_page.dart';
-import 'package:flutter_app/utils/SharePreferenceUtil.dart';
+import 'package:flutter_app/utils/share_preference_util.dart';
 
 class SplashPage extends StatefulWidget {
   @override

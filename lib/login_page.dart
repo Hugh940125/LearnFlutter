@@ -3,7 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_app/home_page.dart';
 import 'package:flutter_app/list_page.dart';
 
-import 'dio/http_util.dart';
+import 'bean/login_info.dart';
+import 'http/http_util.dart';
+import 'http/sub_url.dart';
+import 'utils/share_preference_util.dart';
 
 class MyLoginPage extends StatefulWidget {
   final String title;
@@ -155,8 +158,11 @@ class _MyLoginPageState extends State<MyLoginPage> {
   }
 
   _requestLogin(String account,String pwd){
-    HttpUtil().post('smarthome/member/user/login', (data){
-      String da = data.toString();
+    HttpUtil().signPost(SubUrl.login, (data){
+      LoginInfo loginInfo = LoginInfo.fromJson(data);
+      _saveLoginInfo(loginInfo);
+    }, (){
+      _requestLogin(account,pwd);
     },params: {'mobile':account,'password':pwd,'platform':'2','extPlatform':''},errorCallBack: (errorMsg){
 
     });
@@ -167,5 +173,11 @@ class _MyLoginPageState extends State<MyLoginPage> {
       context,
       new MaterialPageRoute(builder: (context) => new MyListPage()),
     );
+  }
+
+  void _saveLoginInfo(LoginInfo loginInfo) {
+    SharePreferenceUtil().saveBool('isLogin', true);
+    SharePreferenceUtil().saveString('token', loginInfo.accessToken);
+    SharePreferenceUtil().saveString('refreshToken', loginInfo.refreshToken);
   }
 }
